@@ -38,21 +38,36 @@ services:
       - ./twitch:/usr/src/twitch
       - ./twitch/node_modules:/usr/src/twitch/node_modules
     ports:
-      - '${TWITCH_PORT_OUT}:${TWITCH_PORT_IN}'
-    # depends_on:
-    #   - db_socket
+      - "${TWITCH_PORT_OUT}:${TWITCH_PORT_IN}"
+    depends_on:
+      - db_socket
 
   discord:
-      image: node:discord_bot
-      build:
-        context: discord
-        dockerfile: Dockerfile
-      container_name: discord
-      command: nodemon bot.js
-      volumes:
-        - ./discord:/usr/src/discord
-        - ./discord/node_modules:/usr/src/discord/node_modules
-      ports:
-        - '${DISCORD_PORT_OUT}:${DISCORD_PORT_IN}'
-      # depends_on:
-      #   - db_socket
+    image: node:discord_bot
+    build:
+      context: discord
+      dockerfile: Dockerfile
+    container_name: discord
+    command: nodemon bot.js
+    volumes:
+      - ./discord:/usr/src/discord
+      - ./discord/node_modules:/usr/src/discord/node_modules
+    ports:
+      - "${DISCORD_PORT_OUT}:${DISCORD_PORT_IN}"
+    depends_on:
+      - db_socket
+
+  db_socket:
+    image: node:db_socket
+    build:
+      context: db_socket
+      dockerfile: Dockerfile
+    container_name: db_socket
+    command: nodemon server.js
+    volumes:
+      - ./db_socket:/usr/src/db_socket
+      - ./db_socket/node_modules:/usr/src/db_socket/node_modules
+    ports:
+      - '${NODE_DB_PORT_OUT}:${NODE_DB_PORT_IN}'
+    depends_on:
+      - db
