@@ -41,3 +41,18 @@ services:
       - '${TWITCH_PORT_OUT}:${TWITCH_PORT_IN}'
     # depends_on:
     #   - db_socket
+
+  discord:
+      image: node:discord_bot
+      build:
+        context: discord
+        dockerfile: Dockerfile
+      container_name: discord
+      command: nodemon bot.js
+      volumes:
+        - ./discord:/usr/src/discord
+        - ./discord/node_modules:/usr/src/discord/node_modules
+      ports:
+        - '${DISCORD_PORT_OUT}:${DISCORD_PORT_IN}'
+      # depends_on:
+      #   - db_socket
