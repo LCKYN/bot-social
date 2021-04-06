@@ -22,4 +22,3 @@ function onPartHandler(channel, username, self){
 function onConnectedHandler(addr, port) {
   console.log(`* Connected to ${addr}:${port}`);
 }
-
