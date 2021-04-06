@@ -1,16 +1,16 @@
-version: '3'
- 
+version: "3.8"
+
 services:
   db:
     image: mysql:5.7
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_ROOT}
       MYSQL_DATABASE: app
-      MYSQL_USER: lckyn
-      MYSQL_PASSWORD: 123456789
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "6033:3306"
+      - "${DB_PORT_OUT}:${DB_PORT_IN}"
     volumes:
       - ./data/db:/var/lib/mysql
 
@@ -21,8 +21,23 @@ services:
       - db
     environment:
       PMA_HOST: db
-      PMA_PORT: 3306
+      PMA_PORT: ${DB_PORT_IN}
       PMA_ARBITRARY: 1
     restart: always
     ports:
-      - 9000:80
+      - "${PHP_PORT_OUT}:${PHP_PORT_IN}"
+
+  twitch:
+    image: node:twitch_bot
+    build:
+      context: twitch
+      dockerfile: Dockerfile
+    container_name: twitch
+    command: nodemon bot.js
+    volumes:
+      - ./twitch:/usr/src/twitch
+      - ./twitch/node_modules:/usr/src/twitch/node_modules
+    ports:
+      - '${TWITCH_PORT_OUT}:${TWITCH_PORT_IN}'
+    # depends_on:
+    #   - db_socket
