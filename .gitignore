@@ -3,3 +3,6 @@ data/db
 twitch/node_modules
 discord/node_modules
 db_socket/node_modules
+
+
+twitch/config/default.json
