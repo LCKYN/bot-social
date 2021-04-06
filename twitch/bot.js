@@ -11,6 +11,7 @@ client.connect();
 function onChatHandler(channel, userstate, message, self){
   if(self) return;
   console.log(`${userstate.username} : ${message}`);
+  console.log(userstate);
 }
 
 function onJoinHandler(channel, username, self){
