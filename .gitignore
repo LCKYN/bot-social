@@ -6,3 +6,4 @@ db_socket/node_modules
 
 
 twitch/config/default.json
+db_socket/config/db.config.json
