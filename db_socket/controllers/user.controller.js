@@ -1,7 +1,5 @@
 const User = require("../models/user.model.js");
 
-
-// Retrieve all Customers from the database.
 exports.findAll = (req, res) => {
   User.getAll((err, data) => {
     if (err)

@@ -1,7 +1,6 @@
 const twitchUser = require("../models/twitch_user.model.js");
 
 
-// Retrieve all Customers from the database.
 exports.findAll = (req, res) => {
   twitchUser.getAll((err, data) => {
     if (err)
